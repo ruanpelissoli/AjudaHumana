@@ -3,19 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.Web", "AjudaHumana.Web\AjudaHumana.Web.csproj", "{7C6395FB-17EA-49E7-AE93-2596A375CC1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AjudaHumana.Web", "AjudaHumana.Web\AjudaHumana.Web.csproj", "{7C6395FB-17EA-49E7-AE93-2596A375CC1C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{FA3DAE96-EFC5-4344-B397-5718B7FA5453}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.Identity.Data", "AjudaHumana.Identity.Data\AjudaHumana.Identity.Data.csproj", "{BDDB4BB4-B892-41DD-A180-881244DCC21D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AjudaHumana.Identity.Data", "AjudaHumana.Identity.Data\AjudaHumana.Identity.Data.csproj", "{BDDB4BB4-B892-41DD-A180-881244DCC21D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.Identity.Domain", "AjudaHumana.Identity.Domain\AjudaHumana.Identity.Domain.csproj", "{61E1735B-ED69-4265-A7B8-8CBDB23D7215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AjudaHumana.Identity.Domain", "AjudaHumana.Identity.Domain\AjudaHumana.Identity.Domain.csproj", "{61E1735B-ED69-4265-A7B8-8CBDB23D7215}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{34C28A99-C9DF-4808-88A8-611B79EAC306}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.Core", "AjudaHumana.Core\AjudaHumana.Core.csproj", "{E50FC180-7CBC-4ACF-A3CE-B7A3645BBA1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AjudaHumana.Core", "AjudaHumana.Core\AjudaHumana.Core.csproj", "{E50FC180-7CBC-4ACF-A3CE-B7A3645BBA1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.Core.IoC", "AjudaHumana.Core.IoC\AjudaHumana.Core.IoC.csproj", "{D781B08A-1886-4E76-9371-9D44EE096768}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AjudaHumana.Core.IoC", "AjudaHumana.Core.IoC\AjudaHumana.Core.IoC.csproj", "{D781B08A-1886-4E76-9371-9D44EE096768}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ONG", "ONG", "{C7012AEA-8344-48F1-B822-4A39E72CBDAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.ONG.Domain", "AjudaHumana.ONG.Domain\AjudaHumana.ONG.Domain.csproj", "{AE297940-0B9D-4DD1-968C-EAFD9A9ECE32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.ONG.Data", "AjudaHumana.ONG.Data\AjudaHumana.ONG.Data.csproj", "{7CD0236D-6591-498B-A56D-F5150F69D7EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AjudaHumana.ONG.Application", "AjudaHumana.ONG.Application\AjudaHumana.ONG.Application.csproj", "{36128F38-F8A3-4358-A71D-1C934A040EA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +51,18 @@ Global
 		{D781B08A-1886-4E76-9371-9D44EE096768}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D781B08A-1886-4E76-9371-9D44EE096768}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D781B08A-1886-4E76-9371-9D44EE096768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE297940-0B9D-4DD1-968C-EAFD9A9ECE32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE297940-0B9D-4DD1-968C-EAFD9A9ECE32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE297940-0B9D-4DD1-968C-EAFD9A9ECE32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE297940-0B9D-4DD1-968C-EAFD9A9ECE32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CD0236D-6591-498B-A56D-F5150F69D7EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CD0236D-6591-498B-A56D-F5150F69D7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CD0236D-6591-498B-A56D-F5150F69D7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CD0236D-6591-498B-A56D-F5150F69D7EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36128F38-F8A3-4358-A71D-1C934A040EA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36128F38-F8A3-4358-A71D-1C934A040EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36128F38-F8A3-4358-A71D-1C934A040EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36128F38-F8A3-4358-A71D-1C934A040EA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +72,9 @@ Global
 		{61E1735B-ED69-4265-A7B8-8CBDB23D7215} = {FA3DAE96-EFC5-4344-B397-5718B7FA5453}
 		{E50FC180-7CBC-4ACF-A3CE-B7A3645BBA1B} = {34C28A99-C9DF-4808-88A8-611B79EAC306}
 		{D781B08A-1886-4E76-9371-9D44EE096768} = {34C28A99-C9DF-4808-88A8-611B79EAC306}
+		{AE297940-0B9D-4DD1-968C-EAFD9A9ECE32} = {C7012AEA-8344-48F1-B822-4A39E72CBDAC}
+		{7CD0236D-6591-498B-A56D-F5150F69D7EB} = {C7012AEA-8344-48F1-B822-4A39E72CBDAC}
+		{36128F38-F8A3-4358-A71D-1C934A040EA1} = {C7012AEA-8344-48F1-B822-4A39E72CBDAC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6118CB6D-8DA8-4715-B096-1BBAD6AE381C}

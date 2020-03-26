@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using AjudaHumana.Web.Data;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AjudaHumana.Identity.Domain;
 using AjudaHumana.Core.IoC;
+using AjudaHumana.ONG.Data;
 
 namespace AjudaHumana.Web
 {
@@ -33,11 +34,17 @@ namespace AjudaHumana.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<ONGContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<IdentityContext>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+
+            services.AddMediatR(typeof(Startup));
 
             services.RegisterServices();
         }

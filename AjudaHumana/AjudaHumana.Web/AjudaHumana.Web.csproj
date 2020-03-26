@@ -8,13 +8,17 @@
 
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
 
@@ -22,6 +26,8 @@
     <ProjectReference Include="..\AjudaHumana.Core.IoC\AjudaHumana.Core.IoC.csproj" />
     <ProjectReference Include="..\AjudaHumana.Core\AjudaHumana.Core.csproj" />
     <ProjectReference Include="..\AjudaHumana.Identity.Data\AjudaHumana.Identity.Data.csproj" />
+    <ProjectReference Include="..\AjudaHumana.ONG.Data\AjudaHumana.ONG.Data.csproj" />
+    <ProjectReference Include="..\AjudaHumana.ONG.Domain\AjudaHumana.ONG.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.6.2" />
-    <PackageReference Include="MediatR" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AjudaHumana.Core\AjudaHumana.Core.csproj" />
+    <ProjectReference Include="..\AjudaHumana.ONG.Domain\AjudaHumana.ONG.Domain.csproj" />
   </ItemGroup>
 
 </Project>
