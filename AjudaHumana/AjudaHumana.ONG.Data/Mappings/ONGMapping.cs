@@ -10,6 +10,10 @@ namespace AjudaHumana.ONG.Data.Mappings
         {
             builder.HasKey(c => c.Id);
 
+            builder.Property(c => c.Name)
+                   .IsRequired()
+                   .HasColumnType("varchar(256)");
+
             builder.Property(c => c.CNPJ)
                    .IsRequired()
                    .HasColumnType("varchar(14)");

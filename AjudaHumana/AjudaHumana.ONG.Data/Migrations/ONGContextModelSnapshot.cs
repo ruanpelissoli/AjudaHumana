@@ -24,9 +24,6 @@ namespace AjudaHumana.ONG.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("varchar(64)");
@@ -36,6 +33,9 @@ namespace AjudaHumana.ONG.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Latitude")
                         .HasColumnType("decimal(12,9)");
@@ -75,11 +75,11 @@ namespace AjudaHumana.ONG.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("AddressId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Approved")
+                        .HasColumnType("bit");
 
                     b.Property<string>("CNPJ")
                         .IsRequired()
@@ -91,6 +91,13 @@ namespace AjudaHumana.ONG.Data.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("varchar(1024)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
 
                     b.Property<Guid>("ResponsibleId")
                         .HasColumnType("uniqueidentifier");
@@ -109,9 +116,6 @@ namespace AjudaHumana.ONG.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
                     b.Property<string>("CPF")
                         .IsRequired()
                         .HasColumnType("varchar(11)");
@@ -122,6 +126,9 @@ namespace AjudaHumana.ONG.Data.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(128)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()

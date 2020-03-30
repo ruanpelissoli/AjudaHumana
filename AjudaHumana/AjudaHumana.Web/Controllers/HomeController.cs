@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AjudaHumana.Core.ViewModels;
+using Newtonsoft.Json;
+using AjudaHumana.Core.Utils;
 
 namespace AjudaHumana.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -16,10 +18,16 @@ namespace AjudaHumana.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new HomeViewModel();
+
+            if (TempData[TempDataConstants.ShowAlert] != null)
+                model.Alert = JsonConvert.DeserializeObject<AlertViewModel>(TempData[TempDataConstants.ShowAlert].ToString());
+
+            return View(model);
         }
 
-        public IActionResult Privacy()
+        [Route("sobre-nos")]
+        public IActionResult AboutUs()
         {
             return View();
         }

@@ -8,9 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using AjudaHumana.ONG.Data;
 using AjudaHumana.ONG.Domain;
 using AjudaHumana.ONG.Application.Services;
+using AjudaHumana.ONG.Domain.ViewModels;
+using AjudaHumana.Core.ViewModels;
+using Newtonsoft.Json;
+using AjudaHumana.Core.Utils;
+using AjudaHumana.Core.Factories;
 
 namespace AjudaHumana.Web.Controllers
 {
+    [Route("ong")]
     public class ONGController : Controller
     {
         private readonly IONGAppService _ongAppService;
@@ -20,150 +26,69 @@ namespace AjudaHumana.Web.Controllers
             _ongAppService = ongAppService;
         }
 
-        // GET: NonGovernamentalOrganizations
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            //var oNGContext = _context.ONGs.Include(n => n.Responsible);
-            //return View(await oNGContext.ToListAsync());
-
-            return View(new List<NonGovernamentalOrganization>());
-        }
-
-        // GET: NonGovernamentalOrganizations/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var nonGovernamentalOrganization = await _context.ONGs
-            //    .Include(n => n.Responsible)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (nonGovernamentalOrganization == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(nonGovernamentalOrganization);
-
             return View();
         }
 
-        // GET: NonGovernamentalOrganizations/Create
-        public IActionResult Create()
+        [Route("sou-uma-ong")]
+        [HttpGet]
+        public async Task<IActionResult> Upsert(Guid? id)
         {
-            // ViewData["Id"] = new SelectList(_context.Responsibles, "Id", "CPF");
-            return View();
+            var ong = new ONGViewModel();
+
+            if (!id.HasValue)
+                return View(ong);
+
+            ong = await _ongAppService.Find(id.Value);
+
+            if (ong == null)
+                return NotFound();
+
+            return View(ong);
         }
 
-        // POST: NonGovernamentalOrganizations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("sou-uma-ong")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ResponsibleId,AddressId,CNPJ,Description,Approved,Id,CreatedAt,UpdatedAt,IsActive")] NonGovernamentalOrganization nonGovernamentalOrganization)
+        public async Task<IActionResult> Upsert(ONGViewModel ongViewModel)
         {
-            if (!ModelState.IsValid) return View(nonGovernamentalOrganization);
+            if (!ModelState.IsValid)
+                return View(ongViewModel);
 
-            await _ongAppService.Create(nonGovernamentalOrganization);
+            if (ongViewModel.Id == Guid.Empty)
+                await _ongAppService.Create(ongViewModel);
+            else
+                await _ongAppService.Update(ongViewModel);
 
-            return RedirectToAction("Index");
+            TempData[TempDataConstants.ShowAlert] = AlertFactory.NewONGCreated();
+
+            return RedirectToAction("Index", "Home");
         }
 
-        // GET: NonGovernamentalOrganizations/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        #region API CALLS
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var nonGovernamentalOrganization = await _context.ONGs.FindAsync(id);
-            //if (nonGovernamentalOrganization == null)
-            //{
-            //    return NotFound();
-            //}
-            //ViewData["Id"] = new SelectList(_context.Responsibles, "Id", "CPF", nonGovernamentalOrganization.Id);
-            //return View(nonGovernamentalOrganization);
-
-            return View();
+            var ongs = await _ongAppService.GetAll();
+            return Json(new { data = ongs });
         }
 
-        // POST: NonGovernamentalOrganizations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ResponsibleId,AddressId,CNPJ,Description,Approved,Id,CreatedAt,UpdatedAt,IsActive")] NonGovernamentalOrganization nonGovernamentalOrganization)
-        {
-            //if (id != nonGovernamentalOrganization.Id)
-            //{
-            //    return NotFound();
-            //}
+        //[HttpDelete]
+        //public IActionResult Delete(int id)
+        //{
+        //    var objFromDb = _unitOfWork.Category.Get(id);
 
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(nonGovernamentalOrganization);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!NonGovernamentalOrganizationExists(nonGovernamentalOrganization.Id))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //ViewData["Id"] = new SelectList(_context.Responsibles, "Id", "CPF", nonGovernamentalOrganization.Id);
-            //return View(nonGovernamentalOrganization);
+        //    if (objFromDb == null)
+        //        return Json(new { success = false, message = "Error while deleting!" });
 
-            return View();
-        }
+        //    _unitOfWork.Category.Remove(objFromDb);
+        //    _unitOfWork.Save();
 
-        // GET: NonGovernamentalOrganizations/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
+        //    return Json(new { success = true, message = "Delete Successful." });
+        //}
 
-            //var nonGovernamentalOrganization = await _context.ONGs
-            //    .Include(n => n.Responsible)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (nonGovernamentalOrganization == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(nonGovernamentalOrganization);
-
-            return View();
-        }
-
-        // POST: NonGovernamentalOrganizations/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            //var nonGovernamentalOrganization = await _context.ONGs.FindAsync(id);
-            //_context.ONGs.Remove(nonGovernamentalOrganization);
-            //await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool NonGovernamentalOrganizationExists(Guid id)
-        {
-            // return _context.ONGs.Any(e => e.Id == id);
-            return true;
-        }
+        #endregion
     }
 }

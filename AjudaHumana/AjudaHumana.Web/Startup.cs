@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using MediatR;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using AjudaHumana.Web.Data;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using AjudaHumana.Identity.Domain;
 using AjudaHumana.Core.IoC;
 using AjudaHumana.ONG.Data;
+using AjudaHumana.ONG.Application.AutoMapper;
 
 namespace AjudaHumana.Web
 {
@@ -43,6 +39,8 @@ namespace AjudaHumana.Web
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+
+            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
 
             services.AddMediatR(typeof(Startup));
 

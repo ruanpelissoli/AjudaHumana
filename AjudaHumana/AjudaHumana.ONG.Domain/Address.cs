@@ -17,5 +17,15 @@ namespace AjudaHumana.ONG.Domain
         public virtual NonGovernamentalOrganization ONG { get; set; }
 
         protected Address() { }
+        public Address(string state, string city, string zipCode, string street, int number, string complement, string neighborhood)
+        {
+            State = state;
+            City = city;
+            ZipCode = zipCode;
+            Street = street;
+            Number = number;
+            Complement = complement;
+            Neighborhood = neighborhood;
+        }
     }
 }

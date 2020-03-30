@@ -29,7 +29,12 @@ namespace AjudaHumana.ONG.Data.Repository
 
         public async Task<IEnumerable<NonGovernamentalOrganization>> GetAll(Expression<Func<NonGovernamentalOrganization, bool>> filter = null)
         {
-            return await _context.ONGs.AsNoTracking().Where(filter).ToListAsync();
+            var query = _context.ONGs.Include("Responsible").Include("Address").AsNoTracking();
+
+            if (filter == null)
+                return await query.ToListAsync();
+
+            return await query.Where(filter).ToListAsync();
         }
 
         public void Create(NonGovernamentalOrganization ong)
@@ -89,7 +94,7 @@ namespace AjudaHumana.ONG.Data.Repository
 
         public void Dispose()
         {
-            _context.Dispose();
+            _context?.Dispose();
         }
     }
 }

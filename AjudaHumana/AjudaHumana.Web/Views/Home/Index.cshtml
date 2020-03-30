@@ -1,4 +1,6 @@
-﻿@{
+﻿@model AjudaHumana.Core.ViewModels.HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +8,7 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@section Scripts {
+    <partial name="_AlertView" model="Model?.Alert" />
+}

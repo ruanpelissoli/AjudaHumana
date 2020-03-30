@@ -12,5 +12,12 @@ namespace AjudaHumana.ONG.Domain
         public virtual NonGovernamentalOrganization ONG { get; set; }
 
         protected Responsible() { }
+        public Responsible(string name, string cpf, string email, string phoneNumber)
+        {
+            Name = name;
+            CPF = cpf;
+            Email = email;
+            PhoneNumber = phoneNumber;
+        }
     }
 }

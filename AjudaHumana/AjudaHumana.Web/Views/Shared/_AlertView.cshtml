@@ -1,0 +1,16 @@
+﻿@model AjudaHumana.Core.ViewModels.AlertViewModel
+
+@if (Model != null)
+{
+    <script type="text/javascript">
+        $(function () {
+            swal({
+                title: '@Model.Title',
+                text: '@Model.Message',
+                icon: '@Model.Icon'
+            });
+            //toastr.success('bamoooooooo')
+        });
+    </script>
+}
+

@@ -42,9 +42,7 @@ namespace AjudaHumana.ONG.Data
                 }
             }
 
-            var sucesso = await base.SaveChangesAsync() > 0;
-
-            return sucesso;
+            return await base.SaveChangesAsync() > 0;
         }
 
         public DbSet<NonGovernamentalOrganization> ONGs { get; set; }

@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AjudaHumana.Web</title>
+    <title>Ajuda Humana</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link href="~/jqwidgets/styles/jqx.base.css" rel="stylesheet" />
+    <link href="~/jqwidgets/styles/jqx.bootstrap.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -26,7 +28,10 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="ONG" asp-action="Index">Sou uma ONG</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">Sobre Nos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="ong" asp-action="Upsert">Sou uma ONG</a>
                         </li>
                     </ul>
                 </div>
@@ -52,6 +57,19 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/41728e683a.js"></script>
+    <script src="~/jqwidgets/jqxcore.js"></script>
+    <script src="~/jqwidgets/jqxdata.js"></script>
+    <script src="~/jqwidgets/jqxmaskedinput.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".zipcode").jqxMaskedInput({ width: '100%', height: 'calc(1.5em + 0.75rem + 4px)', mask: '#####-###' });
+            $(".cnpj").jqxMaskedInput({ width: '100%', height: 'calc(1.5em + 0.75rem + 4px)', mask: '##.###.###/####-##' });
+            $(".cpf").jqxMaskedInput({ width: '100%', height: 'calc(1.5em + 0.75rem + 4px)', mask: '###.###.###-##' });
+            $(".phone").jqxMaskedInput({ width: '100%', height: 'calc(1.5em + 0.75rem + 4px)', mask: '(##) #####-####' });
+        });
+    </script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
