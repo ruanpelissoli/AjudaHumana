@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using MediatR;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using AjudaHumana.Web.Data;
+using AjudaHumana.Identity.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,19 +37,21 @@ namespace AjudaHumana.Web
                 options.UseSqlServer(
                     _configuration.GetConnectionString("DefaultConnection")));
 
-           services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                // User settings
-                options.User.RequireUniqueEmail = true;
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+             {
+                 // User settings
+                 options.User.RequireUniqueEmail = true;
 
-                // Password
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 8;
-            }).AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<IdentityContext>();
+                 options.SignIn.RequireConfirmedEmail = true;
+
+                 // Password
+                 options.Password.RequireLowercase = false;
+                 options.Password.RequireUppercase = false;
+                 options.Password.RequireNonAlphanumeric = false;
+                 options.Password.RequireDigit = false;
+                 options.Password.RequiredLength = 8;
+             }).AddDefaultTokenProviders()
+                 .AddEntityFrameworkStores<IdentityContext>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
@@ -58,7 +60,7 @@ namespace AjudaHumana.Web
 
             services.AddMediatR(typeof(Startup));
 
-            services.RegisterServices();
+            services.RegisterServices(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,9 +98,15 @@ namespace AjudaHumana.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapAreaControllerRoute(
+                    "Admin",
+                    "Admin",
+                    "Admin/{controller=ONG}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
             });
 

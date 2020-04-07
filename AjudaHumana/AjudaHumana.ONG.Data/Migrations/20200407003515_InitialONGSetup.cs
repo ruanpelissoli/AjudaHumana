@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AjudaHumana.ONG.Data.Migrations
 {
-    public partial class ONGInitialSetup : Migration
+    public partial class InitialONGSetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +38,7 @@ namespace AjudaHumana.ONG.Data.Migrations
                     Name = table.Column<string>(type: "varchar(256)", nullable: false),
                     CNPJ = table.Column<string>(type: "varchar(14)", nullable: false),
                     Description = table.Column<string>(type: "varchar(1024)", nullable: false),
-                    Approved = table.Column<bool>(nullable: false)
+                    Approved = table.Column<bool>(nullable: true, defaultValue: null)
                 },
                 constraints: table =>
                 {

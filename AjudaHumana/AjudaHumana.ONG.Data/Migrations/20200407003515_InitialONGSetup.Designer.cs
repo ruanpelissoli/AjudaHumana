@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AjudaHumana.ONG.Data.Migrations
 {
     [DbContext(typeof(ONGContext))]
-    [Migration("20200330161926_ONGInitialSetup")]
-    partial class ONGInitialSetup
+    [Migration("20200407003515_InitialONGSetup")]
+    partial class InitialONGSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -80,7 +80,7 @@ namespace AjudaHumana.ONG.Data.Migrations
                     b.Property<Guid>("AddressId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Approved")
+                    b.Property<bool?>("Approved")
                         .HasColumnType("bit");
 
                     b.Property<string>("CNPJ")

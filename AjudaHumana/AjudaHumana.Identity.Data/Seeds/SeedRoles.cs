@@ -1,5 +1,5 @@
 ﻿using AjudaHumana.Identity.Domain;
-using AjudaHumana.Identity.Domain.Roles;
+using AjudaHumana.Identity.Domain.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,11 +12,15 @@ namespace AjudaHumana.Identity.Data.Seeds
         {
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
-            if (!roleManager.RoleExistsAsync(Roles.Admin).Result)
-                 roleManager.CreateAsync(new IdentityRole(Roles.Admin)).Wait();
+            try
+            {
+                if (!roleManager.RoleExistsAsync(Roles.Admin).Result)
+                    roleManager.CreateAsync(new IdentityRole(Roles.Admin)).Wait();
 
-            if (!roleManager.RoleExistsAsync(Roles.ONG).Result)
-                 roleManager.CreateAsync(new IdentityRole(Roles.ONG)).Wait();
+                if (!roleManager.RoleExistsAsync(Roles.ONG).Result)
+                    roleManager.CreateAsync(new IdentityRole(Roles.ONG)).Wait();
+            }
+            catch { }
         }
     }
 }

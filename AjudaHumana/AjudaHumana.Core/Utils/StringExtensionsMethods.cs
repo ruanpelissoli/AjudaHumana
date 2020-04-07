@@ -4,7 +4,7 @@
     {
         public static string RemoveSpecialCharacters(this string text)
         {
-            return text.Replace(".", "").Replace("-", "").Replace("/", "");
+            return text.Replace(".", "").Replace("-", "").Replace("/", "").Replace("(", "").Replace(")", "").Replace(" ", "");
         }
     }
 }

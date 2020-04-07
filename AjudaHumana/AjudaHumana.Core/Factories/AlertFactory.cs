@@ -16,5 +16,29 @@ namespace AjudaHumana.Core.Factories
                 }
             );
         }
+
+        public static string NewONGApproved()
+        {
+            return JsonConvert.SerializeObject(
+                new AlertViewModel
+                {
+                    Title = "ONG aprovada!",
+                    Message = "Parabéns! Mais uma ONG vou aprovada para fazer parte do Ajuda Humana.",
+                    Icon = "success"
+                }
+            );
+        }
+
+        public static string NewONGReproved()
+        {
+            return JsonConvert.SerializeObject(
+                new AlertViewModel
+                {
+                    Title = "ONG reprovada!",
+                    Message = "ONG Reprovada! Ainda é possível refazer o cadastro para tentar novamente.",
+                    Icon = "success"
+                }
+            );
+        }
     }
 }

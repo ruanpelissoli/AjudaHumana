@@ -64,31 +64,6 @@ namespace AjudaHumana.Web.Controllers
             TempData[TempDataConstants.ShowAlert] = AlertFactory.NewONGCreated();
 
             return RedirectToAction("Index", "Home");
-        }
-
-        #region API CALLS
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var ongs = await _ongAppService.GetAll();
-            return Json(new { data = ongs });
-        }
-
-        //[HttpDelete]
-        //public IActionResult Delete(int id)
-        //{
-        //    var objFromDb = _unitOfWork.Category.Get(id);
-
-        //    if (objFromDb == null)
-        //        return Json(new { success = false, message = "Error while deleting!" });
-
-        //    _unitOfWork.Category.Remove(objFromDb);
-        //    _unitOfWork.Save();
-
-        //    return Json(new { success = true, message = "Delete Successful." });
-        //}
-
-        #endregion
+        }       
     }
 }

@@ -5,25 +5,24 @@ $(document).ready(function () {
 });
 
 function loadDataTable() {
+    console.log('oi')
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/ONG/GetAll"
+            "url": "/Admin/ONG/GetAll"
         },
         "columns": [
             { "data": "createdAt", "width": "20%" },
             { "data": "name", "width": "30%" },
-            { "data": "cnpj", "width": "20%" },
+            { "data": "cnpj", "width": "10%" },
             { "data": "responsibleName", "width": "20%" },
+            { "data": "approved", "width": "10%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href="/ONG/Upsert/${data}" class="btn btn-success text-white" style="cursor: pointer">
+                            <a href="/Admin/ONG/Review/${data}" class="btn btn-success text-white" style="cursor: pointer">
                                 <i class="fas fa-edit"></i>
-                            </a>
-                            <a onclick=Delete("/ONG/Delete/${data}") class="btn btn-danger text-white" style="cursor: pointer">
-                                <i class="fas fa-trash-alt"></i>
                             </a>
                         </div>
                     `;
@@ -39,7 +38,7 @@ function Delete(url) {
         text: "You will not be able to restore the data!",
         icon: "warning",
         buttons: true,
-        dangerMode: true
+        dangerMode: true,
     }).then((willDelete) => {
         if (willDelete) {
             $.ajax({

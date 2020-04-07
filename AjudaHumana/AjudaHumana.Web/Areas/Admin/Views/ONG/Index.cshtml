@@ -1,4 +1,5 @@
-﻿
+﻿@model AjudaHumana.Core.ViewModels.HomeViewModel
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,10 +7,7 @@
 <br />
 <div class="row">
     <div class="col-6">
-        <h2 class="text-primary">Category List </h2>
-    </div>
-    <div class="col-6 text-right">
-        <a class="btn btn-primary" asp-action="Upsert"><i class="fas fa-plus"></i> &nbsp; Create New Category</a>
+        <h2 class="text-primary">Revisão de ONGs </h2>
     </div>
 </div>
 
@@ -21,14 +19,15 @@
                 <th>Nome</th>
                 <th>Criado em</th>
                 <th>CNPJ</th>
-                <th>Nome do Responsavel</th>
-                <th></th>
+                <th>Nome do Responsável</th>
+                <th>Aprovado</th>
+                <th>Açõe</th>
             </tr>
         </thead>
     </table>
 </div>
 
 @section Scripts {
+    <partial name="_AlertView" model="Model?.Alert" />
     <script src="~/js/ong/index.js"></script>
 }
-

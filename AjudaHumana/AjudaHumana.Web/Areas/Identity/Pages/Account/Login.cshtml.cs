@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using AjudaHumana.Identity.Domain.Contracts;
 
 namespace AjudaHumana.Web.Areas.Identity.Pages.Account
 {
@@ -22,7 +23,7 @@ namespace AjudaHumana.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, 
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
@@ -81,8 +82,17 @@ namespace AjudaHumana.Web.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                var user = await _userManager.FindByNameAsync(Input.Email);
+
                 if (result.Succeeded)
                 {
+                    if (user.ChangePassword)
+                    {
+                        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        return RedirectToPage("./ResetPassword", new { Code = code });
+                    }
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

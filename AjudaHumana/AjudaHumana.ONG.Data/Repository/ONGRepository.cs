@@ -24,7 +24,7 @@ namespace AjudaHumana.ONG.Data.Repository
         #region ONG
         public async Task<NonGovernamentalOrganization> GetById(Guid id)
         {
-            return await _context.ONGs.FindAsync(id);
+            return await _context.ONGs.Include("Responsible").Include("Address").FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<IEnumerable<NonGovernamentalOrganization>> GetAll(Expression<Func<NonGovernamentalOrganization, bool>> filter = null)

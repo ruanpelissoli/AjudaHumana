@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AjudaHumana.Identity.Application\AjudaHumana.Identity.Application.csproj" />
     <ProjectReference Include="..\AjudaHumana.Identity.Data\AjudaHumana.Identity.Data.csproj" />
     <ProjectReference Include="..\AjudaHumana.Identity.Domain\AjudaHumana.Identity.Domain.csproj" />
     <ProjectReference Include="..\AjudaHumana.ONG.Application\AjudaHumana.ONG.Application.csproj" />

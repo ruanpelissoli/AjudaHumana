@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AjudaHumana.Core.Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace AjudaHumana.Identity.Domain
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser, IAggregateRoot
     {
         protected ApplicationUser() { }
 
@@ -10,6 +11,14 @@ namespace AjudaHumana.Identity.Domain
         {
             UserName = email;
             Email = email;
+            ChangePassword = true;
+        }
+
+        public bool ChangePassword { get; private set; }
+
+        public void PasswordResetted()
+        {
+            ChangePassword = false;
         }
     }    
 }

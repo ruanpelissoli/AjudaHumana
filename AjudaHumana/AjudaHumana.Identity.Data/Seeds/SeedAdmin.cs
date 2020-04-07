@@ -1,5 +1,5 @@
 ﻿using AjudaHumana.Identity.Domain;
-using AjudaHumana.Identity.Domain.Roles;
+using AjudaHumana.Identity.Domain.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,16 +12,22 @@ namespace AjudaHumana.Identity.Data.Seeds
         {
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
-            var adminEmail = "ruanpelissoli@gmail.com";
+            try
+            {
+                var adminEmail = "ruanpelissoli@gmail.com";
 
-            var user = userManager.FindByEmailAsync(adminEmail).Result;
-            if (user != null) return;
+                var user = userManager.FindByEmailAsync(adminEmail).Result;
+                if (user != null) return;
 
-            user = new ApplicationUser(adminEmail);
-            var result = userManager.CreateAsync(user, "pelissoli123").Result;
+                user = new ApplicationUser(adminEmail);
+                user.PasswordResetted();
+                user.EmailConfirmed = true;
+                var result = userManager.CreateAsync(user, "pelissoli123").Result;
 
-            if (result.Succeeded)
-                userManager.AddToRoleAsync(user, Roles.Admin).Wait();
+                if (result.Succeeded)
+                    userManager.AddToRoleAsync(user, Roles.Admin).Wait();
+            }
+            catch { }           
         }
     }
 }

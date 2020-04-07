@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using AjudaHumana.Identity.Domain.Contracts;
 
 namespace AjudaHumana.Web.Areas.Identity.Pages.Account
 {
@@ -17,10 +18,12 @@ namespace AjudaHumana.Web.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserAppService _userAppService;
 
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
+        public ResetPasswordModel(UserManager<ApplicationUser> userManager, IUserAppService userAppService)
         {
             _userManager = userManager;
+            _userAppService = userAppService;
         }
 
         [BindProperty]
@@ -55,7 +58,7 @@ namespace AjudaHumana.Web.Areas.Identity.Pages.Account
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = code
                 };
                 return Page();
             }
@@ -78,6 +81,7 @@ namespace AjudaHumana.Web.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
+                await _userAppService.PasswordResetted(user);
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 

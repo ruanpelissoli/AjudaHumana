@@ -43,7 +43,13 @@ namespace AjudaHumana.ONG.Application.Services
 
         public async Task Update(ONGViewModel ongViewModel)
         {
-            var ong = _mapper.Map<NonGovernamentalOrganization>(ongViewModel);
+            var ong = await _ongRepository.GetById(ongViewModel.Id);
+
+            if (ongViewModel.Approved)
+                ong.Approve();
+            else
+                ong.Disapprove();
+
             _ongRepository.Update(ong);
 
             await _ongRepository.UnitOfWork.Commit();

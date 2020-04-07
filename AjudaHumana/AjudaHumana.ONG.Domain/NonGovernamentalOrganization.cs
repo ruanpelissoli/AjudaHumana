@@ -12,7 +12,7 @@ namespace AjudaHumana.ONG.Domain
         public string Name { get; private set; }
         public string CNPJ { get; set; }
         public string Description { get; private set; }
-        public bool Approved { get; private set; }
+        public bool? Approved { get; private set; }
 
         [ForeignKey("ResponsibleId")]
         public virtual Responsible Responsible { get; set; }

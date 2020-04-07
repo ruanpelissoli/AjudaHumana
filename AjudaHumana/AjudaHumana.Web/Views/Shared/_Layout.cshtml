@@ -1,8 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using AjudaHumana.Identity.Domain
-
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+﻿@inject AjudaHumana.Identity.Domain.Contracts.IMenuAppService _menuAppService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,16 +26,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">Sobre Nós</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="ong" asp-action="Upsert">Sou uma ONG</a>
-                        </li>
+                        @foreach (var menu in _menuAppService.GetByCurrentRole())
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="@menu.Area" asp-controller="@menu.Controller" asp-action="@menu.Action">@menu.Text</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

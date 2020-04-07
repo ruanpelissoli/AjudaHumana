@@ -80,6 +80,7 @@ namespace AjudaHumana.ONG.Domain.ViewModels
         public float AddressLatitude { get; set; }
         public float AddressLongitude { get; set; }
         public string CreatedAt { get; set; }
+        public bool Approved { get; set; }
 
     }
 }
