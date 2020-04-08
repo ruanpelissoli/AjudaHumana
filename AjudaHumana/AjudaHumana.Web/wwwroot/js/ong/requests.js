@@ -18,7 +18,7 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href="/ong/pedido/${data}" class="btn btn-success text-white" style="cursor: pointer">
+                            <a href="/ong/pedido?id=${data}" class="btn btn-success text-white" style="cursor: pointer">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </div>

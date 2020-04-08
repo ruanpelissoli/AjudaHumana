@@ -25,5 +25,7 @@ namespace AjudaHumana.ONG.Domain.Contracts
 
         Task<IEnumerable<Request>> GetRequests();
         Task<Request> GetRequest(Guid requestId);
+        void CreateRequest(Request request);
+        void UpdateRequest(Request request);
     }
 }

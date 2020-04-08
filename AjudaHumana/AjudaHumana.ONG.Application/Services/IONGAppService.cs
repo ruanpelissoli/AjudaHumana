@@ -16,5 +16,7 @@ namespace AjudaHumana.ONG.Application.Services
         Task UpdateUserId(ONGViewModel ongViewModel, Guid userId);
         Task<IEnumerable<RequestViewModel>> GetRequests();
         Task<RequestViewModel> GetRequest(Guid requestId);
+        Task CreateRequest(RequestViewModel requestViewModel);
+        Task UpdateRequest(RequestViewModel requestViewModel);
     }
 }

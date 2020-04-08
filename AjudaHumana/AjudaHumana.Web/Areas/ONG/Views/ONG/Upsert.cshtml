@@ -3,14 +3,19 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     var title = "Novo Pedido";
+    var buttonText = "Criar";
 }
 
 <form method="post">
     <div class="row p-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="@Model.Id" />
+        <input type="hidden" asp-for="@Model.ONGId" />
+        <input type="hidden" asp-for="@Model.CreatedAt" />
         @if (Model.Id != Guid.Empty)
         {
             title = $"Editar Pedido";
+            buttonText = "Editar";
         }
         <div class="col-12 border-bottom">
             <h2 class="text-primary">@title</h2>
@@ -19,28 +24,53 @@
             <div class="form-row mb-3">
                 <div class="col-12">
                     <label asp-for="Description"></label>
-                    <textarea asp-for="Description" rows="5" cols="40" class="form-control"></textarea>
+                    <textarea asp-for="Description" rows="5" cols="40" class="form-control" readonly="@(Model.Id != Guid.Empty ? "readonly" : null)"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
-            @*<div class="form-row mb-3">
+            @for (int i = 0; i < Model.Goals.Count; i++)
+            {
+                <div class="form-row mb-3">
+                    <input type="hidden" asp-for="@Model.Goals[i].GoalId" />
+                    <input type="hidden" asp-for="@Model.Goals[i].RequestId" />
+                    <div class="col-7">
+                        <label asp-for="@Model.Goals[i].ItemName"></label>
+                        <input asp-for="@Model.Goals[i].ItemName" class="form-control" readonly="@(Model.Id != Guid.Empty ? "readonly" : null)" />
+                        <span asp-validation-for="@Model.Goals[i].ItemName" class="text-danger"></span>
+                    </div>
+                    @if (Model.Id != Guid.Empty)
+                    {
+                        <div class="col-1">
+                            <label asp-for="@Model.Goals[i].CurrentGoal"></label>
+                            <input asp-for="@Model.Goals[i].CurrentGoal" class="form-control" />
+                            <span asp-validation-for="@Model.Goals[i].FinishedGoal" class="text-danger"></span>
+                        </div>
+                    }
+                    <div class="col-1">
+                        <label asp-for="@Model.Goals[i].FinishedGoal"></label>
+                        <input asp-for="@Model.Goals[i].FinishedGoal" class="form-control" readonly="@(Model.Id != Guid.Empty ? "readonly" : null)" />
+                        <span asp-validation-for="@Model.Goals[i].FinishedGoal" class="text-danger"></span>
+                    </div>
+                    <div class="col-1">
+                        <label>&nbsp; </label>
+                        <button type="submit" class="form-control btn btn-danger" asp-action="RemoveGoal" asp-route-goalId="@Model.Goals[i].GoalId" formnovalidate><i class="fas fa-trash-alt"></i></button>
+                    </div>
+
+                </div>
+            }
+            <div class="form-row mb-3">
                 <div class="col-8">
-                    <label asp-for="ResponsibleName"></label>
-                    <input asp-for="ResponsibleName" class="form-control" />
-                    <span asp-validation-for="ResponsibleName" class="text-danger"></span>
+                    @if (Model.Id == Guid.Empty)
+                    {
+                        <button type="submit" class="btn btn-primary" asp-action="AddGoal" formnovalidate><i class="fas fa-plus"></i> &nbsp; Nova Meta</button>
+                    }
                 </div>
-                <div class="col-4">
-                    <label asp-for="ResponsibleCPF"></label>
-                    <input asp-for="ResponsibleCPF" class="form-control cpf" style="border-radius: 0; padding: 0.375rem 0.5rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.5; color: #495057" />
-                    <span asp-validation-for="ResponsibleCPF" class="text-danger"></span>
-                </div>
-            </div>*@
-            
+            </div>
             <div class="form-group row">
                 <div class="col-4 offset-8">
                     <div class="row">
                         <div class="col">
-                            <button type="submit" class="btn btn-primary form-control">Criar</button>
+                            <button type="submit" class="btn btn-primary form-control" asp-action="Upsert">@buttonText</button>
                         </div>
                     </div>
                 </div>
@@ -50,5 +80,5 @@
 </form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @*<partial name="_ValidationScriptsPartial" />*@
 }

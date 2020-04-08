@@ -2,16 +2,26 @@
 
 @if (Model != null)
 {
-    <script type="text/javascript">
-        $(function () {
-            swal({
-                title: '@Model.Title',
-                text: '@Model.Message',
-                icon: '@Model.Icon',
-                html: true
+
+    @if (Model.Type == "alert")
+    {
+        <script type="text/javascript">
+            $(function() {
+                Swal.fire({
+                    title: '@Model.Title',
+                    html: '@Model.Message',
+                    icon: '@Model.Icon',
+                    confirmButtonText: 'Fechar'
+                });
             });
-            //toastr.success('bamoooooooo')
-        });
-    </script>
+        </script>
+    }
+    else if (Model.Type == "toast")
+    {
+        <script type="text/javascript">
+            toastr.success('@Model.Message')
+        </script>
+    }
+
 }
 

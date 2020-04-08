@@ -35,9 +35,9 @@ namespace AjudaHumana.ONG.Data.Repository
             var query = _context.ONGs.Include("Responsible").Include("Address").AsNoTracking();
 
             if (filter == null)
-                return await query.ToListAsync();
+                return await query.OrderByDescending(o => o.CreatedAt).ToListAsync();
 
-            return await query.Where(filter).ToListAsync();
+            return await query.Where(filter).OrderByDescending(o => o.CreatedAt).ToListAsync();
         }
 
         public void Create(NonGovernamentalOrganization ong)
@@ -101,14 +101,25 @@ namespace AjudaHumana.ONG.Data.Repository
             return await _context.Requests.Include("ONG")
                 .AsNoTracking()
                 .Where(w => w.ONG.ApplicationUserId == _user.Id)
+                .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
 
         public async Task<Request> GetRequest(Guid requestId)
         {
-            return await _context.Requests.Include("NonGovernamentalOrganization")
+            return await _context.Requests.Include("ONG").Include("Goals")
                 .AsNoTracking()
                 .FirstOrDefaultAsync(w => w.ONG.ApplicationUserId == _user.Id && w.Id == requestId);                
+        }
+
+        public void CreateRequest(Request request)
+        {
+            _context.Requests.Add(request);
+        }
+
+        public void UpdateRequest(Request request)
+        {
+            _context.Requests.Update(request);
         }
         #endregion
 

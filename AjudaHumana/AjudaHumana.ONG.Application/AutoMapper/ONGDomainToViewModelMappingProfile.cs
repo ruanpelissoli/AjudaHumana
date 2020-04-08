@@ -27,7 +27,7 @@ namespace AjudaHumana.ONG.Application.AutoMapper
                 .ForMember(d => d.AddressLatitude, o => o.MapFrom(s => s.Address.Latitude))
                 .ForMember(d => d.AddressLongitude, o => o.MapFrom(s => s.Address.Longitude))
                 .ForMember(d => d.CreatedAt, o => o.MapFrom(s => s.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")))
-                .ForMember(d => d.Approved, o => o.MapFrom(s => s.Approved));
+                .ForMember(d => d.Approved, o => o.MapFrom(s => s.Approved.HasValue && s.Approved.Value ? "Sim" : "Não"));
 
             CreateMap<NonGovernamentalOrganization, ONGViewModel>();
         }

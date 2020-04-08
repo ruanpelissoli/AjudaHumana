@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace AjudaHumana.ONG.Domain
 {
@@ -28,11 +29,22 @@ namespace AjudaHumana.ONG.Domain
         public void AddGoal(Goal goal)
         {
             Goals.Add(goal);
+            UpdatedAt = DateTime.Now;
         }
         
         public void RemoveGoal(Goal goal)
         {
             Goals.Remove(goal);
+        }
+
+        public void IsFinished()
+        {
+            if (!Goals.Any(w => !w.Finished))
+                Finished = true;
+            else
+                Finished = false;
+
+            UpdatedAt = DateTime.Now;
         }
     }
 }

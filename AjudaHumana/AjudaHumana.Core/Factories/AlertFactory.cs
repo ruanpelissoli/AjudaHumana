@@ -10,6 +10,7 @@ namespace AjudaHumana.Core.Factories
             return JsonConvert.SerializeObject(
                 new AlertViewModel
                 {
+                    Type = "alert",
                     Title = "ONG cadastrada com sucesso!",
                     Message = "Iremos avaliar seu cadastro assim que possivel. Voce recebera uma e-mail com os proximos passos.",
                     Icon = "success"
@@ -22,6 +23,7 @@ namespace AjudaHumana.Core.Factories
             return JsonConvert.SerializeObject(
                 new AlertViewModel
                 {
+                    Type = "alert",
                     Title = "ONG aprovada!",
                     Message = "Parabéns! Mais uma ONG vou aprovada para fazer parte do Ajuda Humana.",
                     Icon = "success"
@@ -34,8 +36,35 @@ namespace AjudaHumana.Core.Factories
             return JsonConvert.SerializeObject(
                 new AlertViewModel
                 {
+                    Type = "alert",
                     Title = "ONG reprovada!",
                     Message = "ONG Reprovada! Ainda é possível refazer o cadastro para tentar novamente.",
+                    Icon = "success"
+                }
+            );
+        }
+
+        public static string NewRequestCreated()
+        {
+            return JsonConvert.SerializeObject(
+                new AlertViewModel
+                {
+                    Type = "alert",
+                    Title = "Pedido criado com sucesso!",
+                    Message = "Agora você pode atualizar seus pedidos a medida que doações forem chegando e manter suas metas atualizadas.",
+                    Icon = "success"
+                }
+            );
+        }
+
+        public static string RequestEdited()
+        {
+            return JsonConvert.SerializeObject(
+                new AlertViewModel
+                {
+                    Type = "toast",
+                    Title = "Pedido atualizado com sucesso!",
+                    Message = "Pedido atualizado com sucesso!",
                     Icon = "success"
                 }
             );

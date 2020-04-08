@@ -8,23 +8,36 @@ namespace AjudaHumana.ONG.Domain
     {
         public Guid RequestId { get; private set; }
         public string ItemName { get; private set; }
-        public int CurrentGoal { get; set; }
-        public int? FinishedGoal { get; set; }
-        public bool Finished { get; set; }
+        public int CurrentGoal { get; private set; }
+        public int FinishedGoal { get; private set; }
+        public bool Finished { get; private set; }
 
         [ForeignKey("RequestId")]
         public virtual Request Request { get; set; }
 
         protected Goal() { }
 
-        public Goal(string itemName, int currentGoal, int finishedGoal, Request request)
+        public Goal(string itemName, int currentGoal, int finishedGoal, Guid requestId)
         {
-            RequestId = request.Id;
+            RequestId = requestId;
             ItemName = itemName;
             CurrentGoal = currentGoal;
             FinishedGoal = finishedGoal;
+        }
 
-            Request = request;
+        public void IsFinished()
+        {
+            if (CurrentGoal >= FinishedGoal)
+                Finished = true;
+            else
+                Finished = false;
+        }
+
+        public void UpdateCurrentGoal(int currentGoal)
+        {
+            CurrentGoal = currentGoal;
+            UpdatedAt = DateTime.Now;
+            IsFinished();
         }
     }
 }

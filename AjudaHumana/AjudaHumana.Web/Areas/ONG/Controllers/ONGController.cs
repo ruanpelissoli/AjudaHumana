@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AjudaHumana.Core.Factories;
 using AjudaHumana.Core.Utils;
+using AjudaHumana.Core.ViewModels;
 using AjudaHumana.Identity.Domain.Constants;
 using AjudaHumana.ONG.Application.Services;
 using AjudaHumana.ONG.Domain.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AjudaHumana.Web.Areas.ONG.Controllers
 {
@@ -25,36 +28,76 @@ namespace AjudaHumana.Web.Areas.ONG.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            return View();
+            var model = new HomeViewModel();
+
+            if (TempData[TempDataConstants.ShowAlert] != null)
+            {
+                model.Alert = JsonConvert.DeserializeObject<AlertViewModel>(TempData[TempDataConstants.ShowAlert].ToString());
+            }
+
+            return View(model);
         }
 
         [Route("pedido")]
         [HttpGet]
         public async Task<IActionResult> Upsert(Guid? id)
         {
-            var request = new RequestViewModel();
+            var requestViewModel = new RequestViewModel();
 
-            if (!id.HasValue)
-                return View(request);
+            if (!id.HasValue || id.Value == Guid.Empty)
+            {
+                requestViewModel.Goals.Add(new GoalViewModel { GoalId = Guid.NewGuid() });
+                return View(requestViewModel);
+            }
 
-            request = await _ongAppService.GetRequest(id.Value);
+            requestViewModel = await _ongAppService.GetRequest(id.Value);
 
-            if (request == null)
+            if (requestViewModel == null)
                 return NotFound();
 
-            return View(request);
+            return View(requestViewModel);
         }
 
         [Route("pedido")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(Guid? id, RequestViewModel requestViewModel)
+        public async Task<IActionResult> Upsert(RequestViewModel requestViewModel, Guid? id)
         {
-            var request = await _ongAppService.GetRequest(id.Value);
+            if (!ModelState.IsValid)
+                return View(requestViewModel);
 
-            TempData[TempDataConstants.ShowAlert] = AlertFactory.NewONGApproved();
+            if (!id.HasValue || id.Value == Guid.Empty)
+            {
+                await _ongAppService.CreateRequest(requestViewModel);
+                TempData[TempDataConstants.ShowAlert] = AlertFactory.NewRequestCreated();
+            }
+            else
+            {
+                await _ongAppService.UpdateRequest(requestViewModel);
+                TempData[TempDataConstants.ShowAlert] = AlertFactory.RequestEdited();
+            }           
 
             return RedirectToAction("Index", new { area = "ONG" });
+        }
+
+        [Route("nova-meta")]
+        [HttpPost]
+        public IActionResult AddGoal(RequestViewModel requestViewModel)
+        {
+            ModelState.Clear();
+
+            requestViewModel.Goals.Add(new GoalViewModel { GoalId = Guid.NewGuid() });
+            return View("Upsert", requestViewModel);
+        }
+
+        [Route("remover-meta")]
+        [HttpPost]
+        public IActionResult RemoveGoal(RequestViewModel requestViewModel, Guid goalId)
+        {
+            ModelState.Clear();
+
+            requestViewModel.Goals = requestViewModel.Goals.Where(w => w.GoalId != goalId).ToList();
+            return View("Upsert", requestViewModel);
         }
 
         [Route("info")]
@@ -70,6 +113,7 @@ namespace AjudaHumana.Web.Areas.ONG.Controllers
         public async Task<IActionResult> GetAll()
         {
             var requests = await _ongAppService.GetRequests();
+            requests = requests.Select(s => {s.Finished = s.Finished == "True" ? "Sim" : "Não"; return s; });
             return Json(new { data = requests });
         }
 

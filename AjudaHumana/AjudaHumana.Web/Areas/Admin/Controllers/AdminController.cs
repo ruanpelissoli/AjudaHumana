@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using AjudaHumana.Core.Factories;
@@ -63,7 +64,7 @@ namespace AjudaHumana.Web.Areas.Admin.Controllers
         {
             var ong = await _ongAppService.Find(id);
 
-            ong.Approved = approved;
+            ong.Approved = approved ? "Sim" : "Não";
             await _ongAppService.Update(ong);
 
             if (approved)
@@ -88,6 +89,7 @@ namespace AjudaHumana.Web.Areas.Admin.Controllers
         public async Task<IActionResult> GetAll()
         {
             var ongs = await _ongAppService.GetAll(w => !w.Approved.HasValue);
+            ongs = ongs.Select(s => { s.Approved = s.Approved == "True" ? "Sim" : "Não"; return s; });
             return Json(new { data = ongs });
         }
 
