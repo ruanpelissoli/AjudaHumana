@@ -1,7 +1,5 @@
-﻿using AjudaHumana.Identity.Domain.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AjudaHumana.Core.Domain;
+using AjudaHumana.Identity.Domain.ViewModels;
 using System.Threading.Tasks;
 
 namespace AjudaHumana.Identity.Domain.Contracts

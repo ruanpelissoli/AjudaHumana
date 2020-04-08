@@ -1,12 +1,11 @@
-﻿using AjudaHumana.Core.Utils;
-using AjudaHumana.Identity.Domain;
+﻿using AjudaHumana.Core.Domain;
+using AjudaHumana.Core.Utils;
 using AjudaHumana.Identity.Domain.Constants;
 using AjudaHumana.Identity.Domain.Contracts;
 using AjudaHumana.Identity.Domain.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 

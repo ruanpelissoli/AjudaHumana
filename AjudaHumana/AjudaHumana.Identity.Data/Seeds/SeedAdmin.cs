@@ -1,4 +1,4 @@
-﻿using AjudaHumana.Identity.Domain;
+﻿using AjudaHumana.Core.Domain;
 using AjudaHumana.Identity.Domain.Constants;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;

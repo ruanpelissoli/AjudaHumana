@@ -5,9 +5,9 @@ using AutoMapper;
 
 namespace AjudaHumana.ONG.Application.AutoMapper
 {
-    public class ViewModelToDomainMappingProfile : Profile
+    public class ONGViewModelToDomainMappingProfile : Profile
     {
-        public ViewModelToDomainMappingProfile()
+        public ONGViewModelToDomainMappingProfile()
         {
             CreateMap<ONGViewModel, NonGovernamentalOrganization>()
                 .ConstructUsing(p =>

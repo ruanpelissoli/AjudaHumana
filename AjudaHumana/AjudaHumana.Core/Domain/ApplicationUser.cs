@@ -1,7 +1,6 @@
-﻿using AjudaHumana.Core.Domain;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace AjudaHumana.Identity.Domain
+namespace AjudaHumana.Core.Domain
 {
     public class ApplicationUser : IdentityUser, IAggregateRoot
     {

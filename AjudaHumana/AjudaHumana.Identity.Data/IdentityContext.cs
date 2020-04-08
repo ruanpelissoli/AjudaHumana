@@ -1,5 +1,5 @@
 ﻿using AjudaHumana.Core.Data;
-using AjudaHumana.Identity.Domain;
+using AjudaHumana.Core.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using AjudaHumana.Identity.Domain;
+using AjudaHumana.Core.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

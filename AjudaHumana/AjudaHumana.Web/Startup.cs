@@ -7,7 +7,7 @@ using AjudaHumana.Identity.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AjudaHumana.Identity.Domain;
+using AjudaHumana.Core.Domain;
 using AjudaHumana.Core.IoC;
 using AjudaHumana.ONG.Data;
 using AjudaHumana.ONG.Application.AutoMapper;
@@ -42,7 +42,7 @@ namespace AjudaHumana.Web
                  // User settings
                  options.User.RequireUniqueEmail = true;
 
-                 options.SignIn.RequireConfirmedEmail = true;
+                 options.SignIn.RequireConfirmedEmail = false;
 
                  // Password
                  options.Password.RequireLowercase = false;
@@ -56,7 +56,13 @@ namespace AjudaHumana.Web
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
-            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Home/Index";
+                options.LogoutPath = "/Identity/Account/Login";
+            });
+
+            services.AddAutoMapper(typeof(ONGDomainToViewModelMappingProfile), typeof(ONGViewModelToDomainMappingProfile));
 
             services.AddMediatR(typeof(Startup));
 
@@ -101,7 +107,12 @@ namespace AjudaHumana.Web
                 endpoints.MapAreaControllerRoute(
                     "Admin",
                     "Admin",
-                    "Admin/{controller=ONG}/{action=Index}/{id?}");
+                    "Admin/{controller=Admin}/{action=Index}/{id?}");
+
+                endpoints.MapAreaControllerRoute(
+                    "ONG",
+                    "ONG",
+                    "ONG/{controller=ONG}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",

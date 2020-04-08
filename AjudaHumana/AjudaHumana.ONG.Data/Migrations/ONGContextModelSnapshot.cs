@@ -70,12 +70,53 @@ namespace AjudaHumana.ONG.Data.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("AjudaHumana.ONG.Domain.Goal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentGoal")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("FinishedGoal")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("Goals");
+                });
+
             modelBuilder.Entity("AjudaHumana.ONG.Domain.NonGovernamentalOrganization", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AddressId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ApplicationUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("Approved")
@@ -108,6 +149,38 @@ namespace AjudaHumana.ONG.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ONGs");
+                });
+
+            modelBuilder.Entity("AjudaHumana.ONG.Domain.Request", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ONGId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ONGId");
+
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("AjudaHumana.ONG.Domain.Responsible", b =>
@@ -154,11 +227,27 @@ namespace AjudaHumana.ONG.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AjudaHumana.ONG.Domain.Goal", b =>
+                {
+                    b.HasOne("AjudaHumana.ONG.Domain.Request", "Request")
+                        .WithMany("Goals")
+                        .HasForeignKey("RequestId")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AjudaHumana.ONG.Domain.NonGovernamentalOrganization", b =>
                 {
                     b.HasOne("AjudaHumana.ONG.Domain.Responsible", "Responsible")
                         .WithOne("ONG")
                         .HasForeignKey("AjudaHumana.ONG.Domain.NonGovernamentalOrganization", "Id")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AjudaHumana.ONG.Domain.Request", b =>
+                {
+                    b.HasOne("AjudaHumana.ONG.Domain.NonGovernamentalOrganization", "ONG")
+                        .WithMany("Requests")
+                        .HasForeignKey("ONGId")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

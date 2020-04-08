@@ -1,0 +1,54 @@
+﻿@model AjudaHumana.ONG.Domain.ViewModels.RequestViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Novo Pedido";
+}
+
+<form method="post">
+    <div class="row p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (Model.Id != Guid.Empty)
+        {
+            title = $"Editar Pedido";
+        }
+        <div class="col-12 border-bottom">
+            <h2 class="text-primary">@title</h2>
+        </div>
+        <div class="col-12 pt-4">
+            <div class="form-row mb-3">
+                <div class="col-12">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" rows="5" cols="40" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            @*<div class="form-row mb-3">
+                <div class="col-8">
+                    <label asp-for="ResponsibleName"></label>
+                    <input asp-for="ResponsibleName" class="form-control" />
+                    <span asp-validation-for="ResponsibleName" class="text-danger"></span>
+                </div>
+                <div class="col-4">
+                    <label asp-for="ResponsibleCPF"></label>
+                    <input asp-for="ResponsibleCPF" class="form-control cpf" style="border-radius: 0; padding: 0.375rem 0.5rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.5; color: #495057" />
+                    <span asp-validation-for="ResponsibleCPF" class="text-danger"></span>
+                </div>
+            </div>*@
+            
+            <div class="form-group row">
+                <div class="col-4 offset-8">
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary form-control">Criar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

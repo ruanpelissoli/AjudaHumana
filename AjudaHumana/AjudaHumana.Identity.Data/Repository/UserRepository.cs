@@ -1,9 +1,6 @@
 ﻿using AjudaHumana.Core.Data;
-using AjudaHumana.Identity.Domain;
+using AjudaHumana.Core.Domain;
 using AjudaHumana.Identity.Domain.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AjudaHumana.Identity.Data.Repository
 {

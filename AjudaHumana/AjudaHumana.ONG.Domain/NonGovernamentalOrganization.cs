@@ -1,6 +1,7 @@
 ﻿using AjudaHumana.Core.Domain;
 using AjudaHumana.Core.Utils;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AjudaHumana.ONG.Domain
@@ -13,12 +14,15 @@ namespace AjudaHumana.ONG.Domain
         public string CNPJ { get; set; }
         public string Description { get; private set; }
         public bool? Approved { get; private set; }
+        public Guid? ApplicationUserId { get; private set; }
 
         [ForeignKey("ResponsibleId")]
-        public virtual Responsible Responsible { get; set; }
+        public virtual Responsible Responsible { get; private set; }
 
         [ForeignKey("AddressId")]
-        public virtual Address Address { get; set; }
+        public virtual Address Address { get; private set; }
+
+        public virtual ICollection<Request> Requests { get; private set; }
 
         protected NonGovernamentalOrganization() { }
         public NonGovernamentalOrganization(string name, string cnpj, string description, Responsible responsible, Address address)
@@ -26,11 +30,13 @@ namespace AjudaHumana.ONG.Domain
             Name = name;
             CNPJ = cnpj.RemoveSpecialCharacters();
             Description = description;
-            Approved = false;
+            Approved = null;
             IsActive = true;
 
             Responsible = responsible;
             Address = address;
+
+            Requests = new List<Request>();
         }
 
         public void Approve() => Approved = true;
@@ -52,6 +58,21 @@ namespace AjudaHumana.ONG.Domain
         public void UpdateDescription(string description)
         {
             Description = description;
+        }
+
+        public void SetUserId(Guid userId)
+        {
+            ApplicationUserId = userId;
+        }
+
+        public void AddRequest(Request request)
+        {
+            Requests.Add(request);
+        }
+
+        public void RemoveRequest(Request request)
+        {
+            Requests.Remove(request);
         }
     }
 }

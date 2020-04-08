@@ -1,9 +1,8 @@
 ﻿using AjudaHumana.Core.Communication;
 using AjudaHumana.Core.Communication.Email;
 using AjudaHumana.Core.Messages.CommonMessages.Notification;
-using AjudaHumana.Identity.Application;
 using AjudaHumana.Identity.Application.Services;
-using AjudaHumana.Identity.Domain;
+using AjudaHumana.Core.Domain;
 using AjudaHumana.Identity.Domain.Contracts;
 using AjudaHumana.ONG.Application.Commands;
 using AjudaHumana.ONG.Application.Services;
@@ -30,14 +29,14 @@ namespace AjudaHumana.Core.IoC
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.Configure<Settings>(configuration.GetSection("EmailSettings"));
             services.AddTransient<IEmailSender, EmailService>();
+            services.AddScoped<UserManager<ApplicationUser>>();
+            services.AddScoped<IUser, LoggedUser>();
 
             // Notifications
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
 
             //Identity
-            services.AddScoped<UserManager<ApplicationUser>>();
             services.AddScoped<IdentityContext>();
-            services.AddScoped<IUser, LoggedUser>();
             services.AddScoped<IMenuAppService, MenuAppService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserAppService, UserAppService>();

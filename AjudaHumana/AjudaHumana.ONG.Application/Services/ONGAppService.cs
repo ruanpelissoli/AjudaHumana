@@ -24,7 +24,7 @@ namespace AjudaHumana.ONG.Application.Services
 
         public async Task Create(ONGViewModel ongViewModel)
         {
-           var ong = _mapper.Map<NonGovernamentalOrganization>(ongViewModel);
+            var ong = _mapper.Map<NonGovernamentalOrganization>(ongViewModel);
             ong.CNPJ = ongViewModel.CNPJ.RemoveSpecialCharacters();
 
             var responsible = ong.Responsible;
@@ -63,6 +63,24 @@ namespace AjudaHumana.ONG.Application.Services
         public async Task<IEnumerable<ONGViewModel>> GetAll(Expression<Func<NonGovernamentalOrganization, bool>> filter = null)
         {
             return _mapper.Map<IEnumerable<ONGViewModel>>(await _ongRepository.GetAll(filter));
+        }
+
+        public async Task UpdateUserId(ONGViewModel ongViewModel, Guid userId)
+        {
+            var ong = await _ongRepository.GetById(ongViewModel.Id);
+            ong.SetUserId(userId);
+
+            await _ongRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<IEnumerable<RequestViewModel>> GetRequests()
+        {
+            return _mapper.Map<IEnumerable<RequestViewModel>>(await _ongRepository.GetRequests());
+        }
+
+        public async Task<RequestViewModel> GetRequest(Guid requestId)
+        {
+            return _mapper.Map<RequestViewModel>(await _ongRepository.GetRequest(requestId));
         }
 
         public void Dispose()

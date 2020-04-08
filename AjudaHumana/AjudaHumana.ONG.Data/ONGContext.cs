@@ -48,5 +48,7 @@ namespace AjudaHumana.ONG.Data
         public DbSet<NonGovernamentalOrganization> ONGs { get; set; }
         public DbSet<Responsible> Responsibles { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Goal> Goals { get; set; }
     }
 }

@@ -13,5 +13,8 @@ namespace AjudaHumana.ONG.Application.Services
         Task Update(ONGViewModel ongViewModel);
         Task<ONGViewModel> Find(Guid id);
         Task<IEnumerable<ONGViewModel>> GetAll(Expression<Func<NonGovernamentalOrganization, bool>> filter = null);
+        Task UpdateUserId(ONGViewModel ongViewModel, Guid userId);
+        Task<IEnumerable<RequestViewModel>> GetRequests();
+        Task<RequestViewModel> GetRequest(Guid requestId);
     }
 }

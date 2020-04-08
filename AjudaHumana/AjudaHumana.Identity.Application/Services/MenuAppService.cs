@@ -1,4 +1,5 @@
-﻿using AjudaHumana.Identity.Application.Factories;
+﻿using AjudaHumana.Core.Domain;
+using AjudaHumana.Identity.Application.Factories;
 using AjudaHumana.Identity.Domain.Constants;
 using AjudaHumana.Identity.Domain.Contracts;
 using AjudaHumana.Identity.Domain.ViewModels;

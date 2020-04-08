@@ -1,4 +1,6 @@
-﻿namespace AjudaHumana.Identity.Domain.ViewModels
+﻿using AjudaHumana.Core.Domain;
+
+namespace AjudaHumana.Identity.Domain.ViewModels
 {
     public class CreatedUserViewModel
     {

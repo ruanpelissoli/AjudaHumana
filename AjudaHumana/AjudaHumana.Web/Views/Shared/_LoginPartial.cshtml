@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using AjudaHumana.Identity.Domain
+@using AjudaHumana.Core.Domain
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -12,7 +12,7 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Sair</button>
+                <button type="submit" class="nav-link btn btn-link text-white">Sair</button>
             </form>
         </li>
     }

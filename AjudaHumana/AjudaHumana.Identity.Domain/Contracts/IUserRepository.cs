@@ -1,4 +1,5 @@
 ﻿using AjudaHumana.Core.Data;
+using AjudaHumana.Core.Domain;
 
 namespace AjudaHumana.Identity.Domain.Contracts
 {

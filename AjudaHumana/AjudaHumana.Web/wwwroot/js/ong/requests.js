@@ -5,23 +5,20 @@ $(document).ready(function () {
 });
 
 function loadDataTable() {
-    console.log('oi')
-    dataTable = $('#tblData').DataTable({
+   dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/Admin/ONG/GetAll"
+            "url": "/ong/pedidos"
         },
         "columns": [
             { "data": "createdAt", "width": "20%" },
-            { "data": "name", "width": "30%" },
-            { "data": "cnpj", "width": "10%" },
-            { "data": "responsibleName", "width": "20%" },
-            { "data": "approved", "width": "10%" },
+            { "data": "description", "width": "60%" },
+            { "data": "finished", "width": "10%" },
             {
                 "data": "id",
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href="/Admin/ONG/Review/${data}" class="btn btn-success text-white" style="cursor: pointer">
+                            <a href="/ong/pedido/${data}" class="btn btn-success text-white" style="cursor: pointer">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </div>

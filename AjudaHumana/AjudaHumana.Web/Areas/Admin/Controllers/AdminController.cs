@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using AjudaHumana.Core.Factories;
 using AjudaHumana.Core.Utils;
 using AjudaHumana.Core.ViewModels;
+using AjudaHumana.Identity.Domain.Constants;
 using AjudaHumana.Identity.Domain.Contracts;
 using AjudaHumana.ONG.Application.Services;
 using AjudaHumana.ONG.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,15 +16,15 @@ using Newtonsoft.Json;
 namespace AjudaHumana.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Route("ong")]
-    //[Authorize]
-    public class ONGController : Controller
+    [Route("admin")]
+    [Authorize(Roles = Roles.Admin)]
+    public class AdminController : Controller
     {
         private readonly IONGAppService _ongAppService;
         private readonly IUserAppService _userAppService;
         private readonly IEmailSender _emailSender;
 
-        public ONGController(IONGAppService ongAppService,
+        public AdminController(IONGAppService ongAppService,
                              IUserAppService userAppService,
                              IEmailSender emailSender)
         {
@@ -31,6 +33,7 @@ namespace AjudaHumana.Web.Areas.Admin.Controllers
             _emailSender = emailSender;
         }
 
+        [Route("")]
         public IActionResult Index()
         {
             var model = new HomeViewModel();
@@ -41,9 +44,9 @@ namespace AjudaHumana.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        //[Route("revisar")]
+        [Route("revisar/{id}")]
         [HttpGet]
-        public async Task<IActionResult> Review(Guid id)
+        public async Task<IActionResult> Review([FromRoute] Guid id)
         {
             var ong = await _ongAppService.Find(id);
 
@@ -53,28 +56,25 @@ namespace AjudaHumana.Web.Areas.Admin.Controllers
             return View(ong);
         }
 
-        //[Route("revisar")]
+        [Route("revisar/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Review(ONGViewModel ongViewModel, bool approved)
+        public async Task<IActionResult> Review([FromRoute] Guid id, bool approved)
         {
-            ongViewModel.Approved = approved;
-            await _ongAppService.Update(ongViewModel);
+            var ong = await _ongAppService.Find(id);
+
+            ong.Approved = approved;
+            await _ongAppService.Update(ong);
 
             if (approved)
             {
-                var user = await _userAppService.CreateONGUser(ongViewModel.ResponsibleEmail);
-                var code = await _userAppService.GenerateConfirmationEmailCode(user.User);
+                var user = await _userAppService.CreateONGUser(ong.ResponsibleEmail);
 
-                var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.User.Id, code },
-                        protocol: Request.Scheme);
-
-                await _emailSender.SendEmailAsync(ongViewModel.ResponsibleEmail, "Confirm your email",
-                    $@"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.
-                    <p>Nova senha: {user.TempPassword}");
+                await _ongAppService.UpdateUserId(ong, Guid.Parse(user.User.Id));
+                
+                await _emailSender.SendEmailAsync(ong.ResponsibleEmail, ong.Name,
+                    $@"<p>Nova senha: {user.TempPassword} <br />
+                       Será alterada no primeiro logi.</p>");
             }
 
             TempData[TempDataConstants.ShowAlert] = approved ? AlertFactory.NewONGApproved() : AlertFactory.NewONGReproved();
@@ -84,7 +84,7 @@ namespace AjudaHumana.Web.Areas.Admin.Controllers
 
         #region API CALLS
 
-        [HttpGet]
+        [HttpGet("ongs")]
         public async Task<IActionResult> GetAll()
         {
             var ongs = await _ongAppService.GetAll(w => !w.Approved.HasValue);

@@ -1,4 +1,5 @@
 ﻿using AjudaHumana.Core.Data;
+using AjudaHumana.Core.Domain;
 using AjudaHumana.ONG.Domain;
 using AjudaHumana.ONG.Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace AjudaHumana.ONG.Data.Repository
     public class ONGRepository : IONGRepository
     {
         private readonly ONGContext _context;
+        private readonly IUser _user;
 
-        public ONGRepository(ONGContext context)
+        public ONGRepository(ONGContext context, IUser user)
         {
             _context = context;
+            _user = user;
         }
 
         public IUnitOfWork UnitOfWork => _context;
@@ -89,6 +92,23 @@ namespace AjudaHumana.ONG.Data.Repository
         public void UpdateAddress(Address address)
         {
             _context.Addresses.Update(address);
+        }
+        #endregion
+
+        #region Request
+        public async Task<IEnumerable<Request>> GetRequests()
+        {
+            return await _context.Requests.Include("ONG")
+                .AsNoTracking()
+                .Where(w => w.ONG.ApplicationUserId == _user.Id)
+                .ToListAsync();
+        }
+
+        public async Task<Request> GetRequest(Guid requestId)
+        {
+            return await _context.Requests.Include("NonGovernamentalOrganization")
+                .AsNoTracking()
+                .FirstOrDefaultAsync(w => w.ONG.ApplicationUserId == _user.Id && w.Id == requestId);                
         }
         #endregion
 
