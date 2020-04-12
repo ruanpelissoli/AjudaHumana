@@ -57,3 +57,8 @@ body {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
 }
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+    
+}

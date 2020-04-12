@@ -11,6 +11,7 @@ using System;
 using AjudaHumana.ONG.Domain.ViewModels;
 using AjudaHumana.Core.Factories;
 using AjudaHumana.Core.Domain;
+using System.Linq;
 
 namespace AjudaHumana.Web.Controllers
 {
@@ -26,7 +27,7 @@ namespace AjudaHumana.Web.Controllers
         }
 
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (_user.IsInRole(Roles.Admin))
                 return RedirectToAction("Index", "Admin", new { Area = "Admin" });
@@ -34,13 +35,28 @@ namespace AjudaHumana.Web.Controllers
             if (_user.IsInRole(Roles.ONG))
                 return RedirectToAction("Index", "ONG", new { Area = "ONG" });
 
-            var model = new HomeViewModel();
+            var homeViewModel = new HomeViewModel<RequestViewModel>
+            {
+                List = await _ongAppService.GetNearestRequests()
+            };
 
             if (TempData[TempDataConstants.ShowAlert] != null)
-                model.Alert = JsonConvert.DeserializeObject<AlertViewModel>(TempData[TempDataConstants.ShowAlert].ToString());
+            {
+                homeViewModel.Alert = JsonConvert.DeserializeObject<AlertViewModel>(TempData[TempDataConstants.ShowAlert].ToString());
+            }
 
-            return View(model);
+            return View(homeViewModel);
         }
+
+        [Route("detalhe/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Detail([FromRoute] Guid id)
+        {
+            var requestViewModel = await _ongAppService.GetRequest(id);
+
+            return View(requestViewModel);
+        }
+
 
         [Route("sobre-nos")]
         public IActionResult AboutUs()
@@ -80,7 +96,7 @@ namespace AjudaHumana.Web.Controllers
 
             TempData[TempDataConstants.ShowAlert] = AlertFactory.NewONGCreated();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

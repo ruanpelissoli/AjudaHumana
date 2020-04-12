@@ -98,18 +98,32 @@ namespace AjudaHumana.ONG.Data.Repository
         #region Request
         public async Task<IEnumerable<Request>> GetRequests()
         {
-            return await _context.Requests.Include("ONG")
+            return await _context.Requests.Include("ONG.Address").Include("Goals")
                 .AsNoTracking()
                 .Where(w => w.ONG.ApplicationUserId == _user.Id)
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Request>> GetNearestRequests()
+        {
+            return await _context.Requests.Include("ONG.Address").Include("Goals")
+                .AsNoTracking()
+                .Where(w => !w.Finished)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToListAsync();
+        }
+
         public async Task<Request> GetRequest(Guid requestId)
         {
-            return await _context.Requests.Include("ONG").Include("Goals")
-                .AsNoTracking()
-                .FirstOrDefaultAsync(w => w.ONG.ApplicationUserId == _user.Id && w.Id == requestId);                
+            var query = _context.Requests.Include("ONG.Address").Include("Goals").AsNoTracking();
+
+            if(_user.Id.HasValue)
+                query = query.Where(w => w.ONG.ApplicationUserId == _user.Id && w.Id == requestId);    
+            else
+                query = query.Where(w => w.Id == requestId);
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public void CreateRequest(Request request)

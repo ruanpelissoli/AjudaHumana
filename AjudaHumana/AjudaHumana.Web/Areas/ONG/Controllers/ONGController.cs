@@ -28,7 +28,7 @@ namespace AjudaHumana.Web.Areas.ONG.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            var model = new HomeViewModel();
+            var model = new HomeViewModel<ONGViewModel>();
 
             if (TempData[TempDataConstants.ShowAlert] != null)
             {
@@ -104,7 +104,25 @@ namespace AjudaHumana.Web.Areas.ONG.Controllers
         [HttpGet]
         public async Task<IActionResult> Info()
         {
-            return View();
+            var ong = await _ongAppService.GetCurrentLoggedONG();
+
+            if (TempData[TempDataConstants.ShowAlert] != null)
+            {
+                ong.Alert = JsonConvert.DeserializeObject<AlertViewModel>(TempData[TempDataConstants.ShowAlert].ToString());
+            }
+
+            return View(ong);
+        }
+
+        [Route("info")]
+        [HttpPost]
+        public async Task<IActionResult> Info(ONGViewModel ongViewModel)
+        {
+            await _ongAppService.Update(ongViewModel);
+
+            TempData[TempDataConstants.ShowAlert] = AlertFactory.ONGUpdated();
+
+            return RedirectToAction("Index");
         }
 
         #region API CALLS

@@ -1,7 +1,138 @@
-﻿
+﻿@model AjudaHumana.ONG.Domain.ViewModels.ONGViewModel
+
 @{
-    ViewData["Title"] = "Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Info</h1>
+<form method="post">
+    <div class="row p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-12 border-bottom">
+            <h2 class="text-primary">Editar dados da sua ONG</h2>
+        </div>
+        <div class="col-12 pt-4">
+            <div class="form-row mb-3">
+                <div class="col-8">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" readonly />
+                </div>
+                <div class="col-4">
+                    <label asp-for="CNPJ"></label>
+                    <input asp-for="CNPJ" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-12">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" rows="5" cols="40" class="form-control" readonly></textarea>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-8">
+                    <label asp-for="ResponsibleName"></label>
+                    <input asp-for="ResponsibleName" class="form-control" readonly />
+                </div>
+                <div class="col-4">
+                    <label asp-for="ResponsibleCPF"></label>
+                    <input asp-for="ResponsibleCPF" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-8">
+                    <label asp-for="ResponsibleEmail"></label>
+                    <input asp-for="ResponsibleEmail" class="form-control" readonly />
+                </div>
+                <div class="col-4">
+                    <label asp-for="ResponsiblePhoneNumber"></label>
+                    <input asp-for="ResponsiblePhoneNumber" class="form-control phone" style="border-radius: 0; padding: 0.375rem 0.5rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.5; color: #495057" />
+                    <span asp-validation-for="ResponsiblePhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-1">
+                    <label asp-for="AddressState"></label>
+                    <select asp-for="AddressState" class="form-control" >
+                        <option selected></option>
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                    </select>
+                    <span asp-validation-for="AddressState" class="text-danger"></span>
+                </div>
+                <div class="col-7">
+                    <label asp-for="AddressCity"></label>
+                    <input asp-for="AddressCity" class="form-control" />
+                    <span asp-validation-for="AddressCity" class="text-danger"></span>
+                </div>
+                <div class="col-4">
+                    <label asp-for="AddressZipCode"></label>
+                    <input asp-for="AddressZipCode" class="form-control  zipcode" style="border-radius: 0; padding: 0.375rem 0.5rem; font-size: 0.9375rem; font-weight: 400; line-height: 1.5; color: #495057" />
+                    <span asp-validation-for="AddressZipCode" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-10">
+                    <label asp-for="AddressStreet"></label>
+                    <input asp-for="AddressStreet" class="form-control" />
+                    <span asp-validation-for="AddressStreet" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <label asp-for="AddressNumber"></label>
+                    <input asp-for="AddressNumber" class="form-control" />
+                    <span asp-validation-for="AddressNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row mb-3">
+                <div class="col-6">
+                    <label asp-for="AddressNeighborhood"></label>
+                    <input asp-for="AddressNeighborhood" class="form-control" />
+                    <span asp-validation-for="AddressNeighborhood" class="text-danger"></span>
+                </div>
+                <div class="col-6">
+                    <label asp-for="AddressComplement"></label>
+                    <input asp-for="AddressComplement" class="form-control" />
+                    <span asp-validation-for="AddressComplement" class="text-danger"></span>
+                </div>
+            </div>
 
+            <div class="form-group row">
+                <div class="col-4 offset-8">
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-success form-control">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_AlertView" model="Model?.Alert" />
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -44,6 +44,19 @@ namespace AjudaHumana.Core.Factories
             );
         }
 
+        public static string ONGUpdated()
+        {
+            return JsonConvert.SerializeObject(
+                new AlertViewModel
+                {
+                    Type = "toast",
+                    Title = "Dados da ONG atualizados com sucesso!",
+                    Message = "Dados da ONG atualizados com sucesso!",
+                    Icon = "success"
+                }
+            );
+        }
+
         public static string NewRequestCreated()
         {
             return JsonConvert.SerializeObject(

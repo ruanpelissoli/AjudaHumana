@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AjudaHumana.Core.ViewModels;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace AjudaHumana.ONG.Domain.ViewModels
 {
-    public class ONGViewModel
+    public class ONGViewModel : BaseViewModel
     {
         [Key]
         public Guid Id { get; set; }

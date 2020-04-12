@@ -37,7 +37,7 @@ namespace AjudaHumana.Web.Areas.Admin.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            var model = new HomeViewModel();
+            var model = new HomeViewModel<RequestViewModel>();
 
             if (TempData[TempDataConstants.ShowAlert] != null)
                 model.Alert = JsonConvert.DeserializeObject<AlertViewModel>(TempData[TempDataConstants.ShowAlert].ToString());

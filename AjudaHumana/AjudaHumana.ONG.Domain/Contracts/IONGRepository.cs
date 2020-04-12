@@ -24,6 +24,7 @@ namespace AjudaHumana.ONG.Domain.Contracts
         void UpdateAddress(Address address);
 
         Task<IEnumerable<Request>> GetRequests();
+        Task<IEnumerable<Request>> GetNearestRequests();
         Task<Request> GetRequest(Guid requestId);
         void CreateRequest(Request request);
         void UpdateRequest(Request request);

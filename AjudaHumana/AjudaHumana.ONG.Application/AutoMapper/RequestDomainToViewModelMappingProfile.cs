@@ -12,6 +12,8 @@ namespace AjudaHumana.ONG.Application.AutoMapper
                 .ForMember(d => d.ONGId, o => o.MapFrom(s => s.ONGId))
                 .ForMember(d => d.Description, o => o.MapFrom(s => s.Description))
                 .ForMember(d => d.Finished, o => o.MapFrom(s => s.Finished ? "Sim" : "Não"))
+                .ForMember(d => d.Latitude, o => o.MapFrom(s => s.ONG.Address.Longitude))
+                .ForMember(d => d.Longitude, o => o.MapFrom(s => s.ONG.Address.Longitude))
                 .ForMember(d => d.CreatedAt, o => o.MapFrom(s => s.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")));
 
             CreateMap<Request, RequestViewModel>();

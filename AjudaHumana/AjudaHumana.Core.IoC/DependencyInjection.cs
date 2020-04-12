@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AjudaHumana.Identity.Data.Repository;
+using AjudaHumana.Core.GoogleMaps;
 
 namespace AjudaHumana.Core.IoC
 {
@@ -31,6 +32,7 @@ namespace AjudaHumana.Core.IoC
             services.AddTransient<IEmailSender, EmailService>();
             services.AddScoped<UserManager<ApplicationUser>>();
             services.AddScoped<IUser, LoggedUser>();
+            services.AddScoped<IGoogleMapsService, GoogleMapsService>();
 
             // Notifications
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();

@@ -1,14 +1,148 @@
-﻿@model AjudaHumana.Core.ViewModels.HomeViewModel
+﻿@model AjudaHumana.Core.ViewModels.HomeViewModel<AjudaHumana.ONG.Domain.ViewModels.RequestViewModel>
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="col-12 border-bottom mb-5">
+    <h2 class="text-primary">Comece a ajudar agora mesmo:</h2>
 </div>
+
+@if (Model?.List != null && !Model.List.Any())
+{
+    <div class="col-12">
+        <h2 class="text-primary">Nenhum pedido próximo de você! :(</h2>
+    </div>
+}
+else
+{
+    @foreach (var request in Model.List)
+    {
+        <div class="card text-center mb-5 request-card">
+            <div class="card-header text-left" style="text-transform: uppercase">
+                @request.ONGName
+            </div>
+            <div class="card-body text-left">
+                <strong>Descrição:</strong>
+                <h5 class="card-title">@request.Description</h5>
+                <strong>Metas:</strong>
+                <p class="card-text">
+                    <div class="form-row mb-3">
+                        @foreach (var goal in request.Goals)
+                        {
+                            <div class="col-7">
+                                <label asp-for="@goal.ItemName"></label>
+                                <input asp-for="@goal.ItemName" class="form-control" readonly />
+                            </div>
+                            <div class="col-1">
+                                <label asp-for="@goal.CurrentGoal"></label>
+                                <input asp-for="@goal.CurrentGoal" class="form-control" readonly />
+                            </div>
+
+                            <div class="col-1">
+                                <label asp-for="@goal.FinishedGoal"></label>
+                                <input asp-for="@goal.FinishedGoal" class="form-control" readonly />
+                            </div>
+                        }
+                    </div>
+                    <strong>Endereço:</strong>
+                    <div class="form-row mb-3">
+                        <div class="col-1">
+                            <label asp-for="@request.Address.State"></label>
+                            <select asp-for="@request.Address.State" class="form-control" readonly>
+                                <option selected></option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
+                            </select>
+                        </div>
+                        <div class="col-7">
+                            <label asp-for="@request.Address.City"></label>
+                            <input asp-for="@request.Address.City" class="form-control" readonly />
+                        </div>
+                        <div class="col-4">
+                            <label asp-for="@request.Address.ZipCode"></label>
+                            <input asp-for="@request.Address.ZipCode" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <div class="col-10">
+                            <label asp-for="@request.Address.Street"></label>
+                            <input asp-for="@request.Address.Street" readonly class="form-control" />
+                        </div>
+                        <div class="col-2">
+                            <label asp-for="@request.Address.Number"></label>
+                            <input asp-for="@request.Address.Number" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <div class="col-6">
+                            <label asp-for="@request.Address.Neighbourhood"></label>
+                            <input asp-for="@request.Address.Neighbourhood" readonly class="form-control" />
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="@request.Address.Complement"></label>
+                            <input asp-for="@request.Address.Complement" readonly class="form-control" />
+                        </div>
+                    </div>
+                    <a href="/detalhe/@request.Id" class="btn btn-primary">Detalhes do pedido</a>
+            </div>
+            <div id="map" class="card-footer text-muted" style="height: 200px">
+
+            </div>
+            <div style="display: none" id="latitude">@request.Latitude</div>
+            <div style="display: none" id="longitude">@request.Longitude</div>
+        </div>
+    }
+}
 
 @section Scripts {
     <partial name="_AlertView" model="Model?.Alert" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASx4lmXtlK-d2oI7tnH1AsB-2iBOrfuXg"></script>
+    <script>
+        google.maps.event.addDomListener(window, 'load', initMap);
+
+        var mapElements;
+        function initMap() {
+            mapElements = document.querySelectorAll('.request-card')
+
+            mapElements.forEach((element) => {
+                var lat = parseFloat(element.querySelector('#latitude').innerHTML.replace(',', '.'));
+                var lng = parseFloat(element.querySelector('#longitude').innerHTML.replace(',', '.'));
+
+                var map;
+                var marker = { lat: lat, lng: lng };
+                map = new google.maps.Map(element.querySelector('#map'), {
+                    center: marker,
+                    zoom: 15
+                });
+
+                new google.maps.Marker({ position: marker, map: map });
+            });
+        }
+    </script>
 }

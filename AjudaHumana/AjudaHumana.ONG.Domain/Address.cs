@@ -11,8 +11,8 @@ namespace AjudaHumana.ONG.Domain
         public int Number { get; set; }
         public string Complement { get; set; }
         public string Neighborhood { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
         public virtual NonGovernamentalOrganization ONG { get; set; }
 

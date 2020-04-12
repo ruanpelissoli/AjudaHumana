@@ -1,4 +1,11 @@
-﻿@inject AjudaHumana.Identity.Domain.Contracts.IMenuAppService _menuAppService
+﻿@using Microsoft.Extensions.Configuration
+
+@inject AjudaHumana.Identity.Domain.Contracts.IMenuAppService _menuAppService
+@inject IConfiguration _configuration
+
+@{ 
+    var googleMapsUrl = $"https://maps.googleapis.com/maps/api/js?key={_configuration.GetSection("GoogleMapsKey").Value}&callback=initMap";
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +65,7 @@
     <script src="https://kit.fontawesome.com/41728e683a.js"></script>
     <script src="~/jqwidgets/jqxcore.js"></script>
     <script src="~/jqwidgets/jqxdata.js"></script>
-    <script src="~/jqwidgets/jqxmaskedinput.js"></script>
+    <script src="~/jqwidgets/jqxmaskedinput.js"></script> 
 
     <script type="text/javascript">
         $(document).ready(function () {
